@@ -5,20 +5,24 @@ while true
   puts "3:やめる"
   num = gets.to_i
 
-  def incorrect_input
-    puts "1から5で入力してください"
-    point = gets.to_i
-  end
-  def correct_input
-    puts "コメントを入力してください"
-    comment = gets
-    point = gets.to_i
-    post = "ポイント：#{point} コメント：#{comment}"
-    File.open("data.txt", "a") do |file|
-      file.puts(post)
+  def point_and_comment
+    while true
+      if @point <= 0 || @point > 5
+        puts "1から5で入力してください"
+        @point = gets.to_i
+      else
+        puts "コメントを入力してください"
+        comment = gets
+        post = "ポイント：#{@point} コメント：#{comment}"
+        File.open("data.txt", "a") do |file|
+          file.puts(post)
+        end
+        break
+      end
     end
   end
-  def open_file
+
+  def past_result
     File.open("data.txt", "r") do |file|
       file.each_line do |line|
         puts line
@@ -26,22 +30,16 @@ while true
     end
   end
 
-
   case num
   when 1
     puts "1から5で評価を入力してください"
-    point = gets.to_i
-    case point
-    when 1..5
-      correct_input
-    else
-      incorrect_input
-    end
-  
+    @point = gets.to_i
+    point_and_comment
+    
   when 2
     puts "これまでの結果"
-    open_file
-  
+    past_result
+
   when 3
     puts "終了します"
     break
